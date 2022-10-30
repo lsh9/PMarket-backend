@@ -31,7 +31,7 @@ def query_user(userid):
 
 def update_user(data):
 	try:
-		db.session.filter(User.userid == data['userid']).update(data)
+		db.session.filter(User.userid == data['id']).update(data)
 		db.session.commit()
 		return True
 	except Exception as e:

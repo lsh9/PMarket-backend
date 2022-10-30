@@ -6,7 +6,7 @@ from app.controller import *
 my_bp = Blueprint("my_bp", __name__)
 
 
-@my_bp.route('/my/login', methods=["POST", "GET"])
+@my_bp.route('/my/login', methods=["POST"])
 def my_login():
 	try:
 		data = request.json
@@ -21,13 +21,13 @@ def my_login():
 		return {'code': 1}
 
 
-@my_bp.route('/my/info')
+@my_bp.route('/my/info', methods=["GET"])
 def my_info():
-	userid = request.json['id']
+	userid = request.args.get('id')
 	return query_user(userid)
 
 
-@my_bp.route('/my/edit')
+@my_bp.route('/my/edit', methods=["POST"])
 def my_edit():
 	data = request.json
 	if update_user(data):
