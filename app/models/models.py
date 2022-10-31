@@ -1,5 +1,5 @@
 from app.models import db
-
+from datetime import datetime
 
 class Test(db.Model):
 	__tablename__ = "tb_test"
@@ -41,7 +41,7 @@ class Goods(db.Model):
 	pictureUrl = db.Column(db.String(255), nullable=False)
 	contact = db.Column(db.String(255), nullable=False)
 
-	releaseTime = db.Column(db.DateTime, nullable = False, index = True)
+	releaseTime = db.Column(db.DateTime, default=datetime.now, nullable = False, index = True)
 	pass
 
 class Release(db.Model):
