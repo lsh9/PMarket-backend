@@ -9,10 +9,11 @@ class Test(db.Model):
 
 class User(db.Model):
 	__tablename__ = "tb_user"
-	userid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=1000000)
+	# userid是对openid的md5加密
+	userid = db.Column(db.String(255), primary_key=True, nullable=False)
 	openid = db.Column(db.String(255), nullable=False, unique=True)
 	nickName = db.Column(db.String(255), nullable=False)
-	avatarUrl = db.Column(db.String(255), nullable=False)
+	avatarUrl = db.Column(db.String(255), nullable=True)
 	gender = db.Column(db.Integer, nullable=True)
 	contact = db.Column(db.String(255), nullable=True)
 	pass
