@@ -18,7 +18,7 @@ class User(db.Model):
 	contact = db.Column(db.String(255), nullable=True)
 	pass
 
-
+# 暂时不用这个了，请忽视
 class Message(db.Model):
 	__tablename__ = "tb_message"
 	msgId = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -31,14 +31,15 @@ class Message(db.Model):
 
 class Goods(db.Model):
 	__tablename__ = "tb_goods"
-	msgId = db.Column(db.Integer, primary_key=True, nullable=False)
-	goodsId = db.Column(db.Integer, primary_key=True, nullable=False)
+	goodsId = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+	description = db.Column(db.String(1023), nullable=False)
+	pictureUrl = db.Column(db.String(255), nullable=False)
+	contact = db.Column(db.String(255), nullable=False)
 	name = db.Column(db.String(255), nullable=False)
-	goodsClass = db.Column(db.Integer, nullable=False)  # 商品小类别（1日用，2数码，3数学，4计算机，5物理，6化学，…… n 其他）
+	goodsClass = db.Column(db.Integer, nullable=False)  # 商品类别（0书籍，1日用，2数码，3数学，4计算机，5物理，6化学，…… n 其他）
 	price = db.Column(db.Numeric(10, 2), nullable=False)
 	state = db.Column(db.Integer, nullable=False)  # 商品状态（1有货，2已有人要，3已售出）
 	pass
-
 
 class Release(db.Model):
 	__tablename__ = "tb_release"
