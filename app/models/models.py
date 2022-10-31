@@ -24,7 +24,7 @@ class Message(db.Model):
 	description = db.Column(db.String(255), nullable=False)
 	contact = db.Column(db.String(255), nullable=False)
 	pictureUrl = db.Column(db.String(255), nullable=False)
-	msgClass = db.Column(db.Integer, nullable=False)  # 商品大类别（1书籍，2日用，3数码）
+	msgClass = db.Column(db.Integer, nullable=False)
 	pass
 
 
