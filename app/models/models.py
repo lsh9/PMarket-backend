@@ -25,20 +25,24 @@ class Message(db.Model):
 	description = db.Column(db.String(255), nullable=False)
 	contact = db.Column(db.String(255), nullable=False)
 	pictureUrl = db.Column(db.String(255), nullable=False)
-	msgClass = db.Column(db.Integer, nullable=False)  # 商品大类别（1书籍，2日用，3数码）
+	msgClass = db.Column(db.Integer, nullable=False)
 	pass
 
 
 class Goods(db.Model):
 	__tablename__ = "tb_goods"
 	goodsId = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+
+	name = db.Column(db.String(255), nullable=False)
 	description = db.Column(db.String(1023), nullable=False)
+	goodsClass = db.Column(db.Integer, nullable=False)  # 商品小类别
+	price = db.Column(db.Numeric(10, 2), nullable=False)
+	state = db.Column(db.Integer, nullable=False)  # 商品状态（0有货，1已有人要，2已售出）
+
 	pictureUrl = db.Column(db.String(255), nullable=False)
 	contact = db.Column(db.String(255), nullable=False)
-	name = db.Column(db.String(255), nullable=False)
-	goodsClass = db.Column(db.Integer, nullable=False)  # 商品类别（0书籍，1日用，2数码，3数学，4计算机，5物理，6化学，…… n 其他）
-	price = db.Column(db.Numeric(10, 2), nullable=False)
-	state = db.Column(db.Integer, nullable=False)  # 商品状态（1有货，2已有人要，3已售出）
+
+	releaseTime = db.Column(db.DateTime, nullable = False, index = True)
 	pass
 
 class Release(db.Model):
