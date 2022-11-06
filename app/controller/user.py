@@ -46,3 +46,23 @@ def update_user(data):
 def query_userid_by_openid(openid):
     user_obj = db.session.query(User).filter(User.openid == openid).first()
     return user_obj.userid if user_obj else None
+	try:
+		data['userid'] = data['id']
+		del data['id']
+		db.session.query(User).filter(User.userid == data['userid']).update(data)
+		db.session.commit()
+		return True
+	except Exception as e:
+		db.session.rollback()
+		print(e)
+		return False
+
+
+def insert_fake_users():
+	nickName = "nickName_"
+	avatarUrl = "http://www.dingzhen.com/index/"
+	gender = 0
+	contact = "VX: dingzhen_"
+	openid = "openid_"
+	for i in range(1,100):
+		db.session.add(User(userid = openid + str(i), openid=openid + str(i), nickName=nickName + str(i), avatarUrl=avatarUrl + str(i) + ".jpg", gender=i%2,contact = contact + str(i)))

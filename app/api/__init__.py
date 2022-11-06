@@ -4,3 +4,4 @@ from app.api.my import my_bp
 from app.api.index import index_bp
 from app.api.classify import classify_bp
 from app.api.goods import goods_bp
+from app.api.image import image_bp

@@ -35,8 +35,8 @@ class Goods(db.Model):
 
 	name = db.Column(db.String(255), nullable=False)
 	description = db.Column(db.String(1023), nullable=False)
-	goodsClass = db.Column(db.Integer, nullable=False)  # 商品小类别
-	price = db.Column(db.Numeric(10, 2), nullable=False)
+	category = db.Column(db.Integer, nullable=False)  # 商品小类别
+	price = db.Column(db.Integer, nullable=False)
 	state = db.Column(db.Integer, nullable=False)  # 商品状态（0有货，1已有人要，2已售出）
 
 	pictureUrl = db.Column(db.String(255), nullable=False)
@@ -48,12 +48,12 @@ class Goods(db.Model):
 class Release(db.Model):
 	__tablename__ = "tb_release"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	userId = db.Column(db.Integer, nullable=False)
+	userId = db.Column(db.String(255), nullable=False)
 	pass
 
 
 class Star(db.Model):
 	__tablename__ = "tb_star"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	userId = db.Column(db.Integer, nullable=False)
+	userId = db.Column(db.String(255), nullable=False)
 	pass
