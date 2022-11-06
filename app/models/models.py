@@ -35,7 +35,7 @@ class Goods(db.Model):
 	name = db.Column(db.String(255), nullable=False)
 	description = db.Column(db.String(1023), nullable=False)
 	category = db.Column(db.Integer, nullable=False)  # 商品小类别
-	price = db.Column(db.Numeric(10, 2), nullable=False)
+	price = db.Column(db.Integer, nullable=False)
 	state = db.Column(db.Integer, nullable=False)  # 商品状态（0有货，1已有人要，2已售出）
 
 	pictureUrl = db.Column(db.String(255), nullable=False)
