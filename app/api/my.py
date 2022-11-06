@@ -11,10 +11,13 @@ def my_login():
 	try:
 		data = request.json
 		js_code = data['code']
+		# 从wx接口获取openid
 		response = requests.get(f"https://api.weixin.qq.com/sns/jscode2session?appid={current_app.config['WX_APP_ID']}&secret={current_app.config['WX_APP_SECRET']}&js_code={js_code}&grant_type=authorization_code")
 		wx_data = response.json()
 		data['openid'] = wx_data['openid']
-		userid = add_user(data)
+		userid = query_userid_by_openid(data['openid'])
+		if not userid:
+			userid = add_user(data)
 		return {'code': 0, 'id': userid}
 	except Exception as e:
 		print(e)
