@@ -166,18 +166,19 @@ def insert_fake_data():
 				,"https://dingzhen.com/index/122.jpg"
 		]
 	contact_ls=["QQ: 1233443","vx: dingzhen_ks","vx:dingzhen_pku"]
-	for name, description, category, price, state, pictureUrl, contact, userId in zip(name_ls, description_ls,category_ls,price_ls, state_ls, pictureUrl_ls, contact_ls, userId_ls):
-		add_goods(
-			{
-                "name" : name,
-				"description": description,
-				"category" : category,
-				"price" : price,
-				"state" : state,
-				"pictureUrl" :pictureUrl,
-				"contact" : contact,
-			}, userId
-		)
+	for i in range(10):
+		for name, description, category, price, state, pictureUrl, contact, userId in zip(name_ls, description_ls,category_ls,price_ls, state_ls, pictureUrl_ls, contact_ls, userId_ls):
+			add_goods(
+				{
+					"name" : name,
+					"description": description,
+					"category" : category,
+					"price" : price,
+					"state" : state,
+					"pictureUrl" :pictureUrl,
+					"contact" : contact,
+				}, userId
+			)
 
 def test_update():
 	update_goods(
