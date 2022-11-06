@@ -6,7 +6,7 @@ def add_goods(data):
 		db.session.add(Goods(
                             name = data["name"],
                             description = data["description"],
-                            goodsClass = data["goodsClass"],
+                            category = data["category"],
                             price = data["price"],
                             state = data["state"],
                             pictureUrl =data["pictureUrl"],
@@ -29,8 +29,8 @@ def update_goods(data):
 				this_goods.name = v;
 			elif k == 'description':
 				this_goods.description = v;
-			elif k == 'goodsClass':
-				this_goods.goodsClass = v;
+			elif k == 'category':
+				this_goods.category = v;
 			elif k == 'price':
 				this_goods.price = v;
 			elif k == 'state':
@@ -63,7 +63,7 @@ def query_goods_by_id_and_limit(goodsId,  limit):
 				"goodsId" : data.goodsId,
                 "name" : data.name,
 				"description": data.description,
-				"goodsClass" : data.goodsClass,
+				"category" : data.category,
 				"price" : data.price,
 				"state" : data.state,
 				"pictureUrl" :data.pictureUrl,
