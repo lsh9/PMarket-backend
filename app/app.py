@@ -16,6 +16,7 @@ app.register_blueprint(my_bp)
 app.register_blueprint(index_bp)
 app.register_blueprint(classify_bp)
 app.register_blueprint(goods_bp)
+app.register_blueprint(image_bp)
 
 
 @app.route('/')
