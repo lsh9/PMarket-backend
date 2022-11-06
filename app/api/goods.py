@@ -18,4 +18,8 @@ def goods_getGoodsId():  # put application's code here
 
 @goods_bp.route('goods/publish', methods=["POST"])
 def goods_publish():  # put application's code here
-	pass
+	data = request.json
+	userId = data['userId']
+	if add_goods(data, userId):
+		return {'code': 0}
+	return {'code': 1}
