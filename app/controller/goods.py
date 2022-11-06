@@ -137,7 +137,8 @@ def query_goods_detail(goodsId):
 			"releaseTime":str(data.releaseTime)
 		}
 		userId = Release.query.filter(Release.id == goodsId).first().userId;
-		user_obj = User.query.filter(User.id == userId).first()
+		user_obj = User.query.filter(User.userid == userId).first()
+
 		user= {
 			'id': user_obj.userid,
 			'nickName': user_obj.nickName,
@@ -152,8 +153,9 @@ def query_goods_detail(goodsId):
 		db.session.rollback()
 		print(e)
 		return False
+
 def insert_fake_data():
-	userId_ls = [2,0,1]
+	userId_ls = [2,3,1]
 	name_ls = ["一眼顶真","鉴定为","一眼定镇"]
 	description_ls =["顶针同款","顶针代言","顶针"]
 	category_ls=[1,2,0]

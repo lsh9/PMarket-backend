@@ -9,7 +9,7 @@ class Test(db.Model):
 
 class User(db.Model):
 	__tablename__ = "tb_user"
-	userid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=1000000)
+	userid = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
 	openid = db.Column(db.String(255), nullable=False, unique=True)
 	nickName = db.Column(db.String(255), nullable=False)
 	avatarUrl = db.Column(db.String(255), nullable=False)

@@ -8,7 +8,7 @@ def goods():  # put application's code here
 	return 'goods'
 
 
-@goods_bp.route('goods/getGoodsId', methods=["GET"])
+@goods_bp.route('/goods/getGoodsId', methods=["GET"])
 def goods_getGoodsId():  # put application's code here
 	goodsId = request.args.get('goodsId')
 	detail = query_goods_detail(goodsId)
@@ -16,7 +16,7 @@ def goods_getGoodsId():  # put application's code here
 		return {'code':1}
 	return detail
 
-@goods_bp.route('goods/publish', methods=["POST"])
+@goods_bp.route('/goods/publish', methods=["POST"])
 def goods_publish():  # put application's code here
 	data = request.json
 	userId = data['userId']
