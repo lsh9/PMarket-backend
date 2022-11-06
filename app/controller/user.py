@@ -46,3 +46,12 @@ def update_user(data):
 		db.session.rollback()
 		print(e)
 		return False
+
+def insert_fake_users():
+	nickName = "nickName_"
+	avatarUrl = "http://www.dingzhen.com/index/"
+	gender = 0
+	contact = "VX: dingzhen_"
+	openid = "openid_"
+	for i in range(1,100):
+		db.session.add(User(userid = openid + str(i), openid=openid + str(i), nickName=nickName + str(i), avatarUrl=avatarUrl + str(i) + ".jpg", gender=i%2,contact = contact + str(i)))
