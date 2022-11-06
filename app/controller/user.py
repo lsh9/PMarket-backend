@@ -46,4 +46,4 @@ def insert_fake_users():
 	contact = "VX: dingzhen_"
 	openid = "openid_"
 	for i in range(1,100):
-		db.session.add(User(openid=openid + str(i), nickName=nickName + str(i), avatarUrl=avatarUrl + str(i) + ".jpg", gender=i%2,contact = contact + str(i)))
+		db.session.add(User(userid = openid + str(i), openid=openid + str(i), nickName=nickName + str(i), avatarUrl=avatarUrl + str(i) + ".jpg", gender=i%2,contact = contact + str(i)))

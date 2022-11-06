@@ -155,7 +155,7 @@ def query_goods_detail(goodsId):
 		return False
 
 def insert_fake_data():
-	userId_ls = [2,3,1]
+	userId_ls = ["openid_2","openid_3","openid_1"]
 	name_ls = ["一眼顶真","鉴定为","一眼定镇"]
 	description_ls =["顶针同款","顶针代言","顶针"]
 	category_ls=[1,2,0]
