@@ -12,9 +12,10 @@ def index():  # put application's code here
 # 获取beginNo开始的时间倒序的number个商品信息
 @index_bp.route('/index/getGoods', methods=["GET"])
 def index_getGoods():  
-	beginNo = request.args.get('beginNo')
-	number = request.args.get('number')
+	beginNo = int(request.args.get('beginNo'))
+	number = int(request.args.get('number'))
 	goods_list = query_goods_by_id_and_limit(beginNo, number)
+	# print(goods_list)
 	if type(goods_list) == bool:
 		return {'code': 1}
 	return goods_list
