@@ -19,7 +19,19 @@ def goods_getGoodsId():  # put application's code here
 @goods_bp.route('/goods/publish', methods=["POST"])
 def goods_publish():  # put application's code here
 	data = request.json
+
+	this_goods = {
+		"name" : data["name"],
+		"description" : data["description"],
+		"category" : data["category"],
+		"price" : data["price"],
+		"state" : 0,
+		"pictureUrl" :data["pictureUrl"],
+		"contact" : data["contact"]
+	}
 	userId = data['userId']
-	if add_goods(data, userId):
+	# print(data)
+	# print("User ID ", userId)
+	if add_goods(this_goods, userId):
 		return {'code': 0}
 	return {'code': 1}
