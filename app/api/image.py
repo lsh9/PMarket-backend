@@ -1,6 +1,6 @@
 from flask import Blueprint, request, Response, current_app
 import hashlib
-import base64
+
 image_bp = Blueprint("image_bp", __name__)
 
 
@@ -8,18 +8,18 @@ image_bp = Blueprint("image_bp", __name__)
 def upload_img(by):
 	try:
 		if by not in ['avatar', 'goods']:
-			return {'code': 1}
-
-		image_BYTE = base64.b64decode(request.form.get("image"))
+			return 'not found', 404
+		image_file = request.files.get("image")
+		filetype = image_file.filename.rsplit('.')[-1]
+		filename = hashlib.md5(str(image_file.stream).encode('utf-8')).hexdigest()
 		path = f"images/{by}/"
-		imageId = hashlib.md5(str(image_BYTE).encode('utf-8')).hexdigest()
-		with open(path + imageId, "wb") as f:
-			f.write(image_BYTE)
-		url = current_app.config['HTTP_SERVER'] + f"/image/{by}/{imageId}"
-		return {'url': url}
+		filename = filename + "." + filetype
+		image_file.save(path + filename)
+		url = current_app.config['HTTP_SERVER'] + f"/image/{by}/{filename}"
+		return url
 	except Exception as e:
 		print("ERROR:", e)
-		return {'code': 1}
+		return 'not found', 404
 
 
 @image_bp.route('/image/<by>/<imageId>', methods=["GET"])
