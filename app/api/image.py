@@ -5,15 +5,23 @@ image_bp = Blueprint("image_bp", __name__)
 
 
 @image_bp.route('/image/upload/<by>', methods=["POST"])
-def upload_img(by):
+def upload_image(by):
+	""" 从微信上传图片，返回可访问图片的url
+	使用md5生成图片唯一的文件名
+
+	:param by: 图片上传的来源：[avatar, goods]
+	:return: url字符串
+	"""
 	try:
 		if by not in ['avatar', 'goods']:
 			return 'not found', 404
 		image_file = request.files.get("image")
 		filetype = image_file.filename.rsplit('.')[-1]
-		filename = hashlib.md5(str(image_file.stream).encode('utf-8')).hexdigest()
+		filename = hashlib.md5(str((image_file.read())).encode('utf-8')).hexdigest()
 		path = f"images/{by}/"
 		filename = filename + "." + filetype
+		# print(filename)
+
 		image_file.save(path + filename)
 		url = current_app.config['HTTP_SERVER'] + f"/image/{by}/{filename}"
 		return url
@@ -22,8 +30,17 @@ def upload_img(by):
 		return 'not found', 404
 
 
-@image_bp.route('/image/<by>/<imageId>', methods=["GET"])
-def image(by, imageId):
-	with open("images/{}/{}".format(by, imageId), "rb") as f:
+@image_bp.route('/image/<by>/<filename>', methods=["GET"])
+def download_image(by, filename):
+	""" 返回路径image/by/filename的图片
+	此路由用于在微信显示图片，也可在网页打开
+
+	:param by: 图片来源：[avatar, goods]
+	:param filename: 图片文件名
+	:return:图片
+	"""
+	if by not in ['avatar', 'goods']:
+		return 'not found', 404
+	with open(f"images/{by}/{filename}", "rb") as f:
 		img = f.read()
 	return Response(img, mimetype="image")
