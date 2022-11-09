@@ -19,12 +19,11 @@ def goods_getGoodsId():  # put application's code here
 @goods_bp.route('/goods/publish', methods=["POST"])
 def goods_publish():  # put application's code here
 	data = request.json
-
 	this_goods = {
 		"name" : data["name"],
 		"description" : data["description"],
-		"category" : data["category"],
-		"price" : data["price"],
+		"category" : int(data["category"]),
+		"price" : int(data["price"]),
 		"state" : 0,
 		"pictureUrl" :data["pictureUrl"],
 		"contact" : data["contact"]
