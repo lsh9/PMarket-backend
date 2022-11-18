@@ -34,3 +34,11 @@ def goods_publish():  # put application's code here
 	if add_goods(this_goods, userId):
 		return {'code': 0}
 	return {'code': 1}
+
+
+@goods_bp.route('/goods/delete', methods=["POST"])
+def goods_delete():  # put application's code here
+	data = request.json
+	if delete_goods(data["goodsId"]):
+		return {'code': 0}
+	return {'code': 1}
