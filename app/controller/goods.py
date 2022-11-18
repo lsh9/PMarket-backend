@@ -1,4 +1,5 @@
 from app.models import db, Goods, Release,User
+from sqlalchemy import or_,and_
 
 # 往tb_goods中添加一条记录data, data是字典
 # 同时往release表中插入(goodId,userId)
@@ -49,6 +50,19 @@ def update_goods(data):
 				this_goods.contact =v;
 			else:
 				continue;
+		db.session.commit()
+		return True
+	except Exception as e:
+		db.session.rollback()
+		print(e)
+		return False
+
+def delete_goods(goodsId):
+	try:
+		goods = Goods.query.get(goodsId)
+		release = Release.query.get(goodsId)
+		db.session.delete(goods)
+		db.session.delete(release)
 		db.session.commit()
 		return True
 	except Exception as e:
@@ -153,6 +167,50 @@ def query_goods_detail(goodsId):
 		db.session.rollback()
 		print(e)
 		return False
+
+def search_goods(keywords, limit = 666):
+	try:
+		result_dict = {}
+		for word in keywords:
+			goods = Goods.query.filter(or_(Goods.name.contains(word), Goods.description.contains(word))).order_by(Goods.goodsId.desc()).all()
+			for data in goods:
+				result_dict[data.goodsId] = {
+					"type": 0,
+					"goodsId" : data.goodsId,
+					"name" : data.name,
+					"description": data.description,
+					"category" : data.category,
+					"price" : data.price,
+					"state" : data.state,
+					"pictureUrl" :data.pictureUrl,
+					"contact" : data.contact,
+					"releaseTime":str(data.releaseTime)
+				}
+		
+		return [v for v in result_dict.values()][:limit]
+	except Exception as e:
+		db.session.rollback()
+		print(e)
+		return False
+
+def show_all():
+	goods = Goods.query.all()
+	goods_list = [
+			{
+				"type": 0,
+				"goodsId" : data.goodsId,
+                "name" : data.name,
+				"description": data.description,
+				"category" : data.category,
+				"price" : data.price,
+				"state" : data.state,
+				"pictureUrl" :data.pictureUrl,
+				"contact" : data.contact,
+				"releaseTime":str(data.releaseTime)
+			}
+			for data in goods
+		]
+	return goods_list
 
 def insert_fake_data():
 	userId_ls = ["openid_2","openid_3","openid_1"]

@@ -19,3 +19,13 @@ def index_getGoods():
 	if type(goods_list) == bool:
 		return {'code': 1}
 	return goods_list
+
+@index_bp.route('/index/searchGoods', methods=["POST"])
+def index_searchGoods():  
+	data = request.json
+	keywords = data["keywords"]
+	limit = int(data["limit"])
+	goods_list = search_goods(keywords, limit)
+	if type(goods_list) == bool:
+		return {'code': 1}
+	return goods_list
