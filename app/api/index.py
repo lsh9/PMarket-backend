@@ -23,9 +23,9 @@ def index_getGoods():
 @index_bp.route('/index/searchGoods', methods=["POST"])
 def index_searchGoods():  
 	data = request.json
-	keywords = data["keywords"]
+	keywords = str(data["keywords"])
 	limit = int(data["limit"])
-	goods_list = search_goods(keywords, limit)
+	goods_list = search_goods(keywords.split(), limit)
 	if type(goods_list) == bool:
 		return {'code': 1}
 	return goods_list
