@@ -45,7 +45,7 @@ def goods_delete():  # put application's code here
     return {'code': 1}
 
 
-# 添加用户收藏
+# 添加用户收藏，再次添加时取消收藏
 @goods_bp.route('/goods/addLikesGoods', methods=["POST"])
 def goods_addLikesGoods():
     NOTINLIKES = 1  # 之前未被收藏过
