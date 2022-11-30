@@ -48,14 +48,20 @@ def goods_delete():  # put application's code here
 # 添加用户收藏
 @goods_bp.route('/goods/addLikesGoods', methods=["POST"])
 def goods_addLikesGoods():
+    NOTINLIKES = 1  # 之前未被收藏过
+    INLIKES = 2  # 之前被收藏过
     data = request.json
     goodsId = int(data['goodsId'])
     userId = data['id']
     # print(data)
     # print("User ID ", userId)
-    if add_likes_goods(goodsId, userId):
+    judge = add_likes_goods(goodsId, userId)
+    if judge == NOTINLIKES:
         return {'code': 0}
-    return {'code': 1}
+    elif judge == INLIKES:
+        return {'code': 2}
+    else:
+        return {'code': 1}
 
 
 # 请求得到用户收藏的商品列表

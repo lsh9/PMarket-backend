@@ -234,10 +234,10 @@ def insert_fake_data():
     category_ls = [1, 2, 0]
     price_ls = [21, 32, 2220]
     state_ls = [0, 1, 2]
-    pictureUrl_ls = ["https://blog.csdn.net/", "http://dingzhen.com/index/12.jpg", "https://dingzhen.com/index/122.jpg"
+    pictureUrl_ls = ["https://www.wendaxiaowu.com/data/attach/img/6mWTRB898856735.jpg", "https://p6.itc.cn/images01/20210612/cfe4ca4d888542bc896a38b46d534134.jpeg", "https://www.wendaxiaowu.com/data/attach/img/6mWTRB898856735.jpg"
                      ]
     contact_ls = ["QQ: 1233443", "vx: dingzhen_ks", "vx:dingzhen_pku"]
-    for i in range(10):
+    for i in range(3):
         for name, description, category, price, state, pictureUrl, contact, userId in zip(name_ls, description_ls, category_ls, price_ls, state_ls, pictureUrl_ls, contact_ls, userId_ls):
             add_goods(
                 {
@@ -261,17 +261,37 @@ def test_update():
     )
 
 
+def if_likes_goods_exist(goodsId, userId):
+    # 判断商品是否存在于收藏中
+    likes = Star.query.filter(Star.userId == userId, Star.id == goodsId).all()
+    if len(likes) != 0:
+        # 如果已经存在
+        return True
+    else:
+        return False
+
+
 def add_likes_goods(goodsId, userId):
     # 添加收藏商品
+    NOTINLIKES = 1  # 之前未被收藏过
+    INLIKES = 2  # 之前被收藏过
     try:
-        db.session.add(
-            Star(id=goodsId, userId=userId)
-        )
-        db.session.commit()
-        # for i in Star.query.filter(Star.userId == userId):
-        #     print(i.id)
-        #     print(i.userId)
-        return True
+        if if_likes_goods_exist(goodsId, userId):
+            # 如果存在，则删除
+            star = Star.query.filter(Star.userId == userId, Star.id == goodsId).all()
+            for item in star:
+                db.session.delete(item)
+                db.session.commit()
+            return INLIKES
+        else:
+            db.session.add(
+                Star(id=goodsId, userId=userId)
+            )
+            db.session.commit()
+            # for i in Star.query.filter(Star.userId == userId):
+            #     print(i.id)
+            #     print(i.userId)
+            return NOTINLIKES
     except Exception as e:
         db.session.rollback()
         print(e)
@@ -316,6 +336,37 @@ def query_likes_goods(userId, goodsId, limit):
         db.session.rollback()
         print(e)
         return False
+
+
+def clear_all_likes():
+    # 清空收藏表
+    for i in Star.query.all():
+        db.session.delete(i)
+        db.session.commit()
+
+
+def show_all_likes():
+    likes = Star.query.all()
+    print(likes)
+    # likes_goods = []
+    # for star in likes:
+    #     likes_goods.append(Goods.query.filter(Goods.goodsId == star.id).first())
+    # goods_list = [
+    #     {
+    #         "type": 0,
+    #         "goodsId": data.goodsId,
+    #         "name": data.name,
+    #         "description": data.description,
+    #         "category": data.category,
+    #         "price": data.price,
+    #         "state": data.state,
+    #         "pictureUrl": data.pictureUrl,
+    #         "contact": data.contact,
+    #         "releaseTime": str(data.releaseTime)
+    #     }
+    #     for data in likes_goods
+    # ]
+    # return goods_list
 
 
 def query_release_goods(userId, goodsId, limit):
