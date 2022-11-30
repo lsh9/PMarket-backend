@@ -1,13 +1,11 @@
 from flask import Blueprint, request, Response, current_app
-import hashlib
-
+import os
 image_bp = Blueprint("image_bp", __name__)
 
 
 @image_bp.route('/image/upload/<by>', methods=["POST"])
 def upload_image(by):
 	""" 从微信上传图片，返回可访问图片的url
-	使用md5生成图片唯一的文件名
 
 	:param by: 图片上传的来源：[avatar, goods]
 	:return: url字符串
@@ -15,13 +13,14 @@ def upload_image(by):
 	try:
 		if by not in ['avatar', 'goods']:
 			return 'not found', 404
-		image_file = request.files.get("image")
-		filetype = image_file.filename.rsplit('.')[-1]
-		filename = hashlib.md5(str((image_file.read())).encode('utf-8')).hexdigest()
 		path = f"images/{by}/"
-		filename = filename + "." + filetype
-		# print(filename)
-
+		# 从微信获取图片
+		image_file = request.files.get("image")
+		filename = image_file.filename
+		last = request.form.get("last")
+		# 删除旧图片
+		if last and os.path.exists(path + last):
+			os.remove(path + last)
 		image_file.save(path + filename)
 		url = current_app.config['HTTP_SERVER'] + f"/image/{by}/{filename}"
 		return url
