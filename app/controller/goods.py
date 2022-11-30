@@ -66,6 +66,10 @@ def delete_goods(goodsId):
     try:
         goods = Goods.query.get(goodsId)
         release = Release.query.get(goodsId)
+        star = Star.query.filter(Star.id == goodsId).all()
+        # 删除商品时要同步删除所有的该商品收藏
+        for item in star:
+            db.session.delete(item)
         db.session.delete(goods)
         db.session.delete(release)
         db.session.commit()
